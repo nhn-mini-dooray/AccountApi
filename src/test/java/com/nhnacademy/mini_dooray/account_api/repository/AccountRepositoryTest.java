@@ -17,18 +17,14 @@ import java.time.LocalDate;
 import static org.junit.jupiter.api.Assertions.*;
 
 @DataJpaTest
-//@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @Transactional
-//@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-//@ActiveProfiles("dev")
-public class AccountRepositoryTest {
+class AccountRepositoryTest {
 
     @Autowired
     private AccountRepository accountRepository;
     @Autowired
     private StatusRepository statusRepository;
-
     @Autowired
     TestEntityManager testEntityManager;
 
@@ -36,10 +32,11 @@ public class AccountRepositoryTest {
     @Order(1)
     @Transactional(readOnly = true)
     @DisplayName("Account Select 테스트")
-    public void findAccountById() {
+    void findAccountById() {
 
         Long accountId = 1L;
         Account account = accountRepository.findById(accountId).orElse(null);
+        assert account != null;
         System.out.println(account.getLoginId() + account.getPassword());
         assertNotNull(account);
     }
@@ -47,19 +44,13 @@ public class AccountRepositoryTest {
     @Test
     @Order(2)
     @DisplayName("Account Create 테스트")
-    public void testSaveAccount() {
+    void testSaveAccount() {
         // 테스트에 필요한 데이터 생성
-        Status status = Status.builder()
-                .name(StatusCode.ACTIVE)
-                .build();
+        Status status = new Status(1, StatusCode.ACTIVE);
+
         status = statusRepository.save(status);
 
-        Account account = Account.builder()
-                .status(status)
-                .loginId("testuser")
-                .email("testuser@example.com")
-                .password("password")
-                .build();
+        Account account = new Account(status, "testuser", "testuser@example.com", "password");
 
         // 엔티티 저장
         Account savedAccount = accountRepository.save(account);
@@ -75,7 +66,7 @@ public class AccountRepositoryTest {
     @Test
     @Order(3)
     @DisplayName("Account Update 테스트")
-    public void updateAccountStatus() {
+    void updateAccountStatus() {
         Long accountId = 1L;
         Integer newStatusId = 2;
         Status status = statusRepository.findById(newStatusId).orElse(null);
@@ -86,16 +77,14 @@ public class AccountRepositoryTest {
             accountRepository.save(account);
         }
 
-        Account updatedAccount = accountRepository.findById(accountId).orElse(null);
-        if (updatedAccount != null) {
-            assertEquals(newStatusId, updatedAccount.getStatus().getStatusId());
-        }
+        accountRepository.findById(accountId)
+                .ifPresent(updatedAccount -> assertEquals(newStatusId, updatedAccount.getStatus().getStatusId()));
     }
 
     @Test
     @Order(4)
     @DisplayName("Account Delete 테스트")
-    public void deleteAccount() {
+    void deleteAccount() {
         Long accountId = 1L;
 
         accountRepository.deleteById(accountId);
@@ -107,7 +96,7 @@ public class AccountRepositoryTest {
     @Test
     @Order(5)
     @DisplayName("findByEmail 테스트")
-    public void findByEmail() {
+    void findByEmail() {
         String email = "jane@example.com";
         FindByEmailResponseDto findByEmailResponseDto = accountRepository.findByEmail(email);
         assertNotNull(findByEmailResponseDto);

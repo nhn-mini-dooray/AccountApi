@@ -20,7 +20,6 @@ public class Status {
     @Column(name = "status_id")
     private Integer statusId;
 
-    @Setter
     @NotNull
     @Length(max = 45)
     @Enumerated(EnumType.STRING)

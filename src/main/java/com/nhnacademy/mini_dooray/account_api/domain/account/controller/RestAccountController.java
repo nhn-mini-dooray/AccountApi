@@ -1,12 +1,15 @@
 package com.nhnacademy.mini_dooray.account_api.domain.account.controller;
 
 import com.nhnacademy.mini_dooray.account_api.domain.account.model.request.CreateAccountRequestDto;
+import com.nhnacademy.mini_dooray.account_api.domain.account.model.request.EmailRequestDto;
+import com.nhnacademy.mini_dooray.account_api.domain.account.model.response.FindByEmailResponseDto;
 import com.nhnacademy.mini_dooray.account_api.domain.account.service.AccountService;
 import com.nhnacademy.mini_dooray.account_api.domain.status.model.request.StatusCodeRequestDto;
 import com.nhnacademy.mini_dooray.account_api.exception.ValidationFailedException;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -52,6 +55,15 @@ public class RestAccountController {
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .build();
+    }
+
+    @PostMapping("/email")
+    public ResponseEntity<FindByEmailResponseDto> emailHandlers(@RequestBody EmailRequestDto emailRequestDto){
+        FindByEmailResponseDto findByEmailResponseDto = accountService.findAccountByEmail(emailRequestDto);
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(findByEmailResponseDto);
     }
 
 }

@@ -30,7 +30,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(RestAccountController.class)
-public class AccountControllerTest {
+class AccountControllerTest {
 
     @Autowired
     private MockMvc mvc;
@@ -130,7 +130,6 @@ public class AccountControllerTest {
                 .andExpect(jsonPath("$.status.statusId", equalTo(1)))
                 .andExpect(jsonPath("$.status.name", equalTo("ACTIVE")))
                 .andExpect(jsonPath("$.loginId", equalTo("jane")));
-
     }
 
 }

@@ -31,7 +31,6 @@ public class RestAccountAdvice {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
     }
 
-    //이게 맞나 싶다.
     @ExceptionHandler(value = {
             EmptyResultDataAccessException.class,
             ValidationFailedException.class})

@@ -97,5 +97,16 @@ public class AccountServiceTest {
         // then
         verify(accountRepository, times(1)).deleteById(any(Long.class));
     }
+
+    @Test
+    @DisplayName("findAccountByEmail 메서드 테스트")
+    public void findAccountByEmail() {
+        // given
+        String email = "jane@example.com";
+        // when
+        accountRepository.findByEmail(email);
+        // then
+        verify(accountRepository,times(1)).findByEmail(any(String.class));
+    }
 }
 

@@ -3,7 +3,6 @@ package com.nhnacademy.mini_dooray.account_api.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nhnacademy.mini_dooray.account_api.domain.account.controller.RestAccountController;
-import com.nhnacademy.mini_dooray.account_api.domain.account.entity.Account;
 import com.nhnacademy.mini_dooray.account_api.domain.account.model.request.CreateAccountRequestDto;
 import com.nhnacademy.mini_dooray.account_api.domain.account.model.request.EmailRequestDto;
 import com.nhnacademy.mini_dooray.account_api.domain.account.model.response.FindByEmailResponseDto;
@@ -26,7 +25,6 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -120,7 +118,6 @@ public class AccountControllerTest {
             }
         };
 
-        //given(accountService.findAccountByEmail(emailRequestDto)).willReturn(
         given(accountService.findAccountByEmail(any(EmailRequestDto.class))).willReturn(findByEmailResponseDto);
 
         mvc.perform(post("/accounts/email")
@@ -134,14 +131,6 @@ public class AccountControllerTest {
                 .andExpect(jsonPath("$.status.name", equalTo("ACTIVE")))
                 .andExpect(jsonPath("$.loginId", equalTo("jane")));
 
-
-
-
-
-
-
-
     }
-
 
 }

@@ -19,8 +19,7 @@ import java.util.Optional;
 
 import static org.mockito.Mockito.*;
 
-//@ExtendWith(SpringExtension.class)
-public class AccountServiceTest {
+class AccountServiceTest {
 
     @Mock
     private AccountRepository accountRepository;
@@ -39,7 +38,7 @@ public class AccountServiceTest {
 
     @Test
     @DisplayName("CreateAccount 메서드 테스트")
-    public void testCreateAccount() {
+    void testCreateAccount() {
         // Given
         CreateAccountRequestDto requestDto = CreateAccountRequestDto.builder()
                 .loginId("test")
@@ -61,18 +60,13 @@ public class AccountServiceTest {
 
     @Test
     @DisplayName("UpdateAccount 메서드 테스트")
-    public void testUpdateAccount() {
+    void testUpdateAccount() {
         // given
         Long id = 1L;
         StatusCodeRequestDto statusCode = new StatusCodeRequestDto(StatusCode.ACTIVE);
 
         Status status = new Status(1, StatusCode.ACTIVE);
-        Account account = Account.builder()
-                .status(status)
-                .loginId("test")
-                .email("test@example.com")
-                .password("password")
-                .build();
+        Account account = new Account(status, "test", "test@example.com", "password");
 
         // when
         when(statusRepository.findByName(statusCode.getStatus())).thenReturn(Optional.of(status));
@@ -84,10 +78,9 @@ public class AccountServiceTest {
         verify(accountRepository, times(1)).save(any(Account.class));
     }
 
-
     @Test
     @DisplayName("deleteAccount 메서드 테스트")
-    public void deleteAccount() {
+    void deleteAccount() {
         // given
         Long id = 1L;
 
@@ -100,13 +93,13 @@ public class AccountServiceTest {
 
     @Test
     @DisplayName("findAccountByEmail 메서드 테스트")
-    public void findAccountByEmail() {
+    void findAccountByEmail() {
         // given
         String email = "jane@example.com";
         // when
         accountRepository.findByEmail(email);
         // then
-        verify(accountRepository,times(1)).findByEmail(any(String.class));
+        verify(accountRepository, times(1)).findByEmail(any(String.class));
     }
 }
 

@@ -1,6 +1,7 @@
 package com.nhnacademy.mini_dooray.account_api.repository;
 
 import com.nhnacademy.mini_dooray.account_api.domain.account.entity.Account;
+import com.nhnacademy.mini_dooray.account_api.domain.account.model.response.FindByEmailResponseDto;
 import com.nhnacademy.mini_dooray.account_api.domain.account.repository.AccountRepository;
 import com.nhnacademy.mini_dooray.account_api.domain.status.entity.Status;
 import com.nhnacademy.mini_dooray.account_api.domain.status.model.type_code.StatusCode;
@@ -103,5 +104,12 @@ public class AccountRepositoryTest {
         assertNull(deletedAccount);
     }
 
-    // 다른 테스트 메소드들을 추가로 작성할 수 있습니다.
+    @Test
+    @Order(5)
+    @DisplayName("findByEmail 테스트")
+    public void findByEmail() {
+        String email = "jane@example.com";
+        FindByEmailResponseDto findByEmailResponseDto = accountRepository.findByEmail(email);
+        assertNotNull(findByEmailResponseDto);
+    }
 }

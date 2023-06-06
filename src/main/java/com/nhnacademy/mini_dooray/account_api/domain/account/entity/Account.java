@@ -18,35 +18,36 @@ public class Account {
     @Column(name = "account_id")
     private Long accountId;
 
+
     @Setter
     @ManyToOne
     @NotNull
     @JoinColumn(name = "status_id")
     private Status status;
 
-    @Setter
+
     @NotNull
     @Length(max = 45)
     @Column(name = "account_login_id")
     private String loginId;
 
-    @Setter
+
     @NotNull
     @Length(max = 45)
     @Column(name = "account_email")
     private String email;
 
-    @Setter
+
     @NotNull
     @Length(max = 45)
     @Column(name = "account_password")
     private String password;
 
-    @Setter
+
     @Column(name = "account_last_login_date")
     private LocalDate lastLoginDate;
 
-    @Builder
+
     public Account(Status status, String loginId, String email, String password) {
         this.status = status;
         this.loginId = loginId;

@@ -13,8 +13,10 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.validation.Valid;
+import java.net.URI;
 
 @RestController
 @RequiredArgsConstructor(access = AccessLevel.PROTECTED)
@@ -22,18 +24,22 @@ import javax.validation.Valid;
 public class RestAccountController {
     private final AccountService accountService;
 
-    @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/signup")
     public ResponseEntity<Void> signupHandler(@Valid @RequestBody CreateAccountRequestDto responseDto,
-                                              BindingResult bindingResult) {
+                                              BindingResult bindingResult, UriComponentsBuilder uriBuilder) {
 
         if (bindingResult.hasErrors()) {
             throw new ValidationFailedException(bindingResult);
         }
 
         accountService.createAccount(responseDto);
+
+        URI location = uriBuilder.path("/signup")
+                .buildAndExpand()
+                .toUri();
+
         return ResponseEntity
-                .status(HttpStatus.CREATED)
+                .created(location)
                 .build();
     }
 
@@ -41,19 +47,22 @@ public class RestAccountController {
     public ResponseEntity<Void> dormantHandler(@PathVariable(name = "id") Long id,
                                                @RequestBody StatusCodeRequestDto status,
                                                BindingResult bindingResult) {
+
         if (bindingResult.hasErrors()) {
             throw new ValidationFailedException(bindingResult);
         }
 
         accountService.updateAccount(id, status);
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        return ResponseEntity
+                .noContent()
+                .build();
     }
 
     @DeleteMapping("/{id}/withdrawal")
     public ResponseEntity<Void> withdrawalHandler(@PathVariable(name = "id") Long id) {
         accountService.deleteAccount(id);
         return ResponseEntity
-                .status(HttpStatus.OK)
+                .ok()
                 .build();
     }
 
@@ -61,7 +70,7 @@ public class RestAccountController {
     public ResponseEntity<FindByEmailResponseDto> emailHandlers(@RequestBody EmailRequestDto emailRequestDto){
         FindByEmailResponseDto findByEmailResponseDto = accountService.findAccountByEmail(emailRequestDto);
         return ResponseEntity
-                .status(HttpStatus.OK)
+                .ok()
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(findByEmailResponseDto);
     }

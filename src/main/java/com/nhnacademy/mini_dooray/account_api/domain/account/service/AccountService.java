@@ -2,6 +2,8 @@ package com.nhnacademy.mini_dooray.account_api.domain.account.service;
 
 import com.nhnacademy.mini_dooray.account_api.domain.account.entity.Account;
 import com.nhnacademy.mini_dooray.account_api.domain.account.model.request.CreateAccountRequestDto;
+import com.nhnacademy.mini_dooray.account_api.domain.account.model.request.EmailRequestDto;
+import com.nhnacademy.mini_dooray.account_api.domain.account.model.response.FindByEmailResponseDto;
 import com.nhnacademy.mini_dooray.account_api.domain.account.repository.AccountRepository;
 import com.nhnacademy.mini_dooray.account_api.domain.status.entity.Status;
 import com.nhnacademy.mini_dooray.account_api.domain.status.model.request.StatusCodeRequestDto;
@@ -52,6 +54,10 @@ public class AccountService {
 
     public void deleteAccount(Long id) {
         accountRepository.deleteById(id);
+    }
+
+    public FindByEmailResponseDto findAccountByEmail(EmailRequestDto email) {
+        return accountRepository.findByEmail(email.getEmail());
     }
 
 

@@ -11,7 +11,7 @@ USE `nhn_academy_42` ;
 CREATE TABLE IF NOT EXISTS `nhn_academy_42`.`status`
 (
     `status_id`   INT         NOT NULL AUTO_INCREMENT,
-    `status_name` VARCHAR(45) NULL,
+    `status_name` VARCHAR(45) NULL unique,
     PRIMARY KEY (`status_id`)
 )
     ENGINE = InnoDB;
@@ -24,8 +24,8 @@ CREATE TABLE IF NOT EXISTS `nhn_academy_42`.`accounts`
 (
     `account_id`              BIGINT      NOT NULL AUTO_INCREMENT,
     `status_id`               INT         NOT NULL,
-    `account_login_id`        VARCHAR(45) NOT NULL,
-    `account_email`           VARCHAR(45) NOT NULL,
+    `account_login_id`        VARCHAR(45) NOT NULL unique,
+    `account_email`           VARCHAR(45) NOT NULL unique,
     `account_password`        VARCHAR(45) NOT NULL,
     `account_last_login_date` DATE        NULL,
     PRIMARY KEY (`account_id`),

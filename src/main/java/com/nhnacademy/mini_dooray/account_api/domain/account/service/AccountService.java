@@ -36,12 +36,7 @@ public class AccountService {
     public void createAccount(CreateAccountRequestDto requestDto) {
         Status status = statusRepository.findByName(StatusCode.ACTIVE).orElseThrow(NotFoundException::new);
 
-        Account account = Account.builder()
-                .status(status)
-                .loginId(requestDto.getLoginId())
-                .email(requestDto.getEmail())
-                .password(requestDto.getPassword())
-                .build();
+        Account account = new Account(status, requestDto.getLoginId(), requestDto.getEmail(), requestDto.getPassword());
         accountRepository.save(account);
     }
 

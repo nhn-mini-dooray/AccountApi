@@ -9,14 +9,11 @@ import com.nhnacademy.mini_dooray.account_api.exception.ValidationFailedExceptio
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.validation.Valid;
-import java.net.URI;
 
 @RestController
 @RequiredArgsConstructor(access = AccessLevel.PROTECTED)
@@ -26,7 +23,7 @@ public class RestAccountController {
 
     @PostMapping("/signup")
     public ResponseEntity<Void> signupHandler(@Valid @RequestBody CreateAccountRequestDto responseDto,
-                                              BindingResult bindingResult, UriComponentsBuilder uriBuilder) {
+                                              BindingResult bindingResult) {
 
         if (bindingResult.hasErrors()) {
             throw new ValidationFailedException(bindingResult);
@@ -34,13 +31,7 @@ public class RestAccountController {
 
         accountService.createAccount(responseDto);
 
-        URI location = uriBuilder.path("/signup")
-                .buildAndExpand()
-                .toUri();
-
-        return ResponseEntity
-                .created(location)
-                .build();
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}/dormant")
@@ -70,9 +61,7 @@ public class RestAccountController {
     public ResponseEntity<FindByEmailResponseDto> emailHandlers(@RequestBody EmailRequestDto emailRequestDto){
         FindByEmailResponseDto findByEmailResponseDto = accountService.findAccountByEmail(emailRequestDto);
         return ResponseEntity
-                .ok()
-                .contentType(MediaType.APPLICATION_JSON)
-                .body(findByEmailResponseDto);
+                .ok(findByEmailResponseDto);
     }
 
 }

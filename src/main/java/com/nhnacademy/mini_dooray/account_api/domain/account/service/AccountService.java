@@ -40,7 +40,7 @@ public class AccountService {
         accountRepository.save(account);
     }
 
-    public void updateAccount(Long id, StatusCodeRequestDto statusCode) { //statusCode가 잘 작동되는지 확인
+    public void updateAccount(Long id, StatusCodeRequestDto statusCode) {
         Status status = statusRepository.findByName(statusCode.getStatus()).orElseThrow(NotFoundException::new);
         Account account = accountRepository.findById(id).orElseThrow(NotFoundException::new);
         account.setStatus(status);

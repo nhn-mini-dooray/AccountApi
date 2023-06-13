@@ -35,4 +35,15 @@ public class RestAccountAdvice {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
     }
 
+    @ExceptionHandler(value = {
+            DuplicateLoginIdException.class,
+            DuplicateEmailException.class})
+    public ResponseEntity<String> httpResponseExceptionHandler(Exception exception) {
+        log.error("advice_Error_Message: {}", exception.getMessage());
+
+        return ResponseEntity
+                .badRequest()
+                .body(exception.getMessage());
+    }
+
 }

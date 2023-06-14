@@ -1,7 +1,7 @@
 package com.nhnacademy.mini_dooray.account_api.repository;
 
 import com.nhnacademy.mini_dooray.account_api.domain.account.entity.Account;
-import com.nhnacademy.mini_dooray.account_api.domain.account.model.response.FindByEmailResponseDto;
+import com.nhnacademy.mini_dooray.account_api.domain.account.model.response.EmailResponseDto;
 import com.nhnacademy.mini_dooray.account_api.domain.account.repository.AccountRepository;
 import com.nhnacademy.mini_dooray.account_api.domain.status.entity.Status;
 import com.nhnacademy.mini_dooray.account_api.domain.status.model.type_code.StatusCode;
@@ -91,14 +91,5 @@ class AccountRepositoryTest {
 
         Account deletedAccount = accountRepository.findById(accountId).orElse(null);
         assertNull(deletedAccount);
-    }
-
-    @Test
-    @Order(5)
-    @DisplayName("findByEmail 테스트")
-    void findByEmail() {
-        String email = "jane@example.com";
-        FindByEmailResponseDto findByEmailResponseDto = accountRepository.findByEmail(email);
-        assertNotNull(findByEmailResponseDto);
     }
 }

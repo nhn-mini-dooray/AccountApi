@@ -2,7 +2,9 @@ package com.nhnacademy.mini_dooray.account_api.domain.account.controller;
 
 import com.nhnacademy.mini_dooray.account_api.domain.account.model.request.CreateAccountRequestDto;
 import com.nhnacademy.mini_dooray.account_api.domain.account.model.request.EmailRequestDto;
-import com.nhnacademy.mini_dooray.account_api.domain.account.model.response.FindByEmailResponseDto;
+import com.nhnacademy.mini_dooray.account_api.domain.account.model.request.LoginRequestDto;
+import com.nhnacademy.mini_dooray.account_api.domain.account.model.response.AccountLoginDto;
+import com.nhnacademy.mini_dooray.account_api.domain.account.model.response.EmailResponseDto;
 import com.nhnacademy.mini_dooray.account_api.domain.account.service.AccountService;
 import com.nhnacademy.mini_dooray.account_api.domain.status.model.request.StatusCodeRequestDto;
 import com.nhnacademy.mini_dooray.account_api.exception.ValidationFailedException;
@@ -58,10 +60,15 @@ public class RestAccountController {
     }
 
     @PostMapping("/email")
-    public ResponseEntity<FindByEmailResponseDto> emailHandlers(@RequestBody EmailRequestDto emailRequestDto){
-        FindByEmailResponseDto findByEmailResponseDto = accountService.findAccountByEmail(emailRequestDto);
+    public ResponseEntity<EmailResponseDto> emailHandlers(@RequestBody EmailRequestDto emailRequestDto) {
+        EmailResponseDto emailResponseDto = accountService.findAccountByEmail(emailRequestDto);
         return ResponseEntity
-                .ok(findByEmailResponseDto);
+                .ok(emailResponseDto);
     }
 
+    @PostMapping("/login")
+    public ResponseEntity<AccountLoginDto> loginHandlers(@RequestBody LoginRequestDto loginRequestDto) {
+        return ResponseEntity
+                .ok(accountService.findAccountByLoginId(loginRequestDto));
+    }
 }

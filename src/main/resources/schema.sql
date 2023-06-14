@@ -26,7 +26,7 @@ CREATE TABLE IF NOT EXISTS `nhn_academy_42`.`accounts`
     `status_id`               INT         NOT NULL,
     `account_login_id`        VARCHAR(45) NOT NULL unique,
     `account_email`           VARCHAR(45) NOT NULL unique,
-    `account_password`        VARCHAR(45) NOT NULL,
+    `account_password`        CHAR(60)    NOT NULL,
     `account_last_login_date` DATE        NULL,
     PRIMARY KEY (`account_id`),
     INDEX                     `fk_account_status1_idx` (`status_id` ASC) VISIBLE,
